@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============================================
+// AUTHENTICATION & USER MANAGEMENT
+// ============================================
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  passwordHash  String?  // null for OAuth-only users
+  avatar_url    String?
+  role          Role     @default(USER)
+
+  // OAuth fields
+  provider      String?  // "google", "github", "local"
+  provider_id   String?  // "google_12345"
+
+  // Account status
+  email_verified DateTime?
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  // Relations
+  sessions      Session[]
+  preferences   Preferences?
+  activity      Activity[]
+
+  @@index([email])
+  @@index([provider, provider_id])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  user_id      String
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  refresh_token String  @unique
+  expires_at   DateTime
+  ip_address   String?
+  user_agent   String?  // Browser info
+
+  created_at   DateTime @default(now())
+
+  @@index([user_id])
+  @@index([refresh_token])
+}
+
+model Preferences {
+  id        String   @id @default(cuid())
+  user_id   String   @unique
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  theme     String   @default("light")  // "light" or "dark"
+  language  String   @default("en")
+
+  // Notifications
+  email_notifications Boolean @default(true)
+  push_notifications  Boolean @default(true)
+
+  updated_at DateTime @updatedAt
+
+  @@index([user_id])
+}
+
+// ============================================
+// ANALYTICS & ACTIVITY TRACKING
+// ============================================
+
+model Activity {
+  id        String   @id @default(cuid())
+  user_id   String
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  event_type String  // "page_view", "signup", "purchase"
+  event_data Json?   // Flexible data for different events
+
+  created_at DateTime @default(now())
+
+  @@index([user_id])
+  @@index([created_at])
+  @@index([event_type])
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}

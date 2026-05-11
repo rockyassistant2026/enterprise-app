@@ -1,0 +1,48 @@
+name = "enterprise-app"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+
+[env.production]
+name = "enterprise-app-prod"
+route = "yourdomain.com/*"
+zone_id = ""
+
+[build]
+command = "npm run build"
+cwd = "./"
+watch_paths = ["src/**/*.ts"]
+
+[build.upload]
+format = "service-worker"
+
+[triggers.crons]
+crons = ["0 0 * * *"]
+
+[env.production.triggers.crons]
+crons = ["0 0 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "enterprise-app"
+database_id = ""
+
+[env.production.d1_databases]
+binding = "DB"
+database_name = "enterprise-app-prod"
+database_id = ""
+
+[vars]
+ENVIRONMENT = "production"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "enterprise-app-uploads"
+jurisdiction = "eu"
+
+[env.production.r2_buckets]
+binding = "BUCKET"
+bucket_name = "enterprise-app-prod-uploads"
+jurisdiction = "eu"

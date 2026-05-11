@@ -1,36 +1,203 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Enterprise App
 
-## Getting Started
+Enterprise-grade SaaS application built with Next.js, Prisma, and PostgreSQL.
 
-First, run the development server:
+## 🚀 Quick Start
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Prerequisites
+- Node.js 20+
+- PostgreSQL 16+
+- Git
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repo-url>
+   cd enterprise-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment**
+   ```bash
+   cp .env.local.example .env.local
+   # Edit .env.local with your database credentials
+   ```
+
+4. **Set up database**
+   ```bash
+   npx prisma migrate dev --name init
+   npx prisma db seed
+   ```
+
+5. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+## 📁 Project Structure
+
+```
+enterprise-app/
+├── app/                    # Next.js App Router
+│   ├── api/v1/            # API endpoints
+│   │   ├── auth/          # Authentication
+│   │   └── users/         # User management
+│   ├── layout.tsx
+│   └── page.tsx
+├── lib/                    # Utilities & business logic
+│   ├── api/               # API helpers
+│   ├── auth/              # Auth logic
+│   ├── prisma/            # Prisma client
+│   └── validation/        # Zod schemas
+├── components/            # React components
+├── prisma/                # Database schema & migrations
+├── middleware/            # Express-style middleware
+├── types/                 # TypeScript types
+├── .github/workflows/     # CI/CD pipelines
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📚 Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Technology Stack
+- **Frontend**: Next.js 15.2, React, Tailwind CSS
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL 16
+- **ORM**: Prisma
+- **Authentication**: NextAuth.js v5
+- **Validation**: Zod
+- **Monitoring**: Sentry
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### API Endpoints
 
-## Learn More
+**Authentication**
+- `POST /api/v1/auth/register` - Register new user
+- `POST /api/v1/auth/login` - Login
+- `POST /api/v1/auth/logout` - Logout
+- `POST /api/v1/auth/refresh` - Refresh token
+- `GET /api/v1/auth/me` - Get current user
 
-To learn more about Next.js, take a look at the following resources:
+**Users**
+- `GET /api/v1/users` - List users (paginated)
+- `GET /api/v1/users/:id` - Get user by ID
+- `PATCH /api/v1/users/:id` - Update user
+- `DELETE /api/v1/users/:id` - Delete user
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔐 Security
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- JWT authentication with refresh token rotation
+- Password hashing (bcryptjs)
+- CSRF protection
+- SQL injection prevention (Prisma ORM)
+- Rate limiting (Upstash)
+- CORS configuration
+- Environment variable management
 
-## Deploy on Vercel
+## 🧪 Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Run all tests
+npm run test
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Run tests in watch mode
+npm run test:watch
+
+# Run specific test file
+npm run test -- auth.test.ts
+
+# Generate coverage report
+npm run test:coverage
+```
+
+## 📊 Database
+
+### Schema
+- `User` - User accounts
+- `Session` - Authentication sessions
+- `Preferences` - User preferences
+- `Activity` - User activity tracking
+
+### Migrations
+
+```bash
+# Create new migration
+npx prisma migrate dev --name <migration_name>
+
+# Deploy migrations to production
+npx prisma migrate deploy
+
+# Reset database (local only)
+npx prisma migrate reset
+```
+
+## 🚀 Deployment
+
+### Environment Variables
+See `.env.local.example` for all required variables.
+
+### Production Build
+```bash
+npm run build
+npm start
+```
+
+### Docker
+```bash
+docker build -t enterprise-app .
+docker run -p 3000:3000 enterprise-app
+```
+
+## 📖 Documentation
+
+- [Architecture Decision Records](./docs/architecture/)
+- [API Documentation](./docs/api/)
+- [Database Schema](./prisma/schema.prisma)
+- [Security Guidelines](./docs/SECURITY.md)
+
+## 🐛 Troubleshooting
+
+### Database Connection Issues
+```bash
+# Check database connection
+npx prisma db validate
+
+# Regenerate Prisma client
+npx prisma generate
+```
+
+### Build Errors
+```bash
+# Clear Next.js cache
+rm -rf .next
+
+# Rebuild
+npm run build
+```
+
+## 🤝 Contributing
+
+1. Create a feature branch: `git checkout -b feature/name`
+2. Make changes and commit: `git commit -am 'Add feature'`
+3. Push to branch: `git push origin feature/name`
+4. Submit pull request
+
+## 📝 License
+
+This project is licensed under the MIT License - see LICENSE file for details.
+
+## 📞 Support
+
+For questions or issues, please open a GitHub issue or contact the team.
+
+---
+
+**Created**: 2025-05-10  
+**Last Updated**: 2025-05-10  
+**Version**: 1.0.0
