@@ -1,0 +1,31 @@
+{
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "@site_url"
+  },
+  "headers": [
+    {
+      "source": "/images/parallax/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Content-Type",
+          "value": "image/svg+xml; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
