@@ -24,7 +24,7 @@ export default function Home() {
       
       <Hero />
       
-      {/* Parallax Person + Background Transitions Section */}
+      {/* PARALLAX PERSON + BACKGROUND TRANSITIONS (NEW PHASE 5 INTEGRATION) */}
       <ParallaxPerson />
       
       <StatsSection />
@@ -38,11 +38,10 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-slate-400">© 2024 ZEROSKIP AI. All rights reserved.</p>
           <p className="text-slate-500 text-sm mt-2">
-            Built with Next.js, React, GSAP, Lenis, and Framer Motion
+            Built with Next.js 16, React 19, GSAP, Lenis, and Framer Motion
           </p>
         </div>
       </footer>
     </main>
   );
 }
-// Parallax Person deployment: Tue May 12 17:49:04 +04 2026

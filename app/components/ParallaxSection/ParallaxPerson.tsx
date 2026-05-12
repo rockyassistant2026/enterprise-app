@@ -38,42 +38,39 @@ export default function ParallaxPerson() {
       const windowHeight = window.innerHeight;
       const parallaxContainerHeight = sections.length * windowHeight;
 
-      // Calculate scroll progress
-      const progress = Math.min(
-        scrollPosition / parallaxContainerHeight,
-        1
-      );
+      // Calculate scroll progress (0 to 1)
+      const progress = Math.min(scrollPosition / parallaxContainerHeight, 1);
       setScrollProgress(progress);
 
-      // Determine which background to show
+      // Determine which background to show based on scroll position
       const sectionHeight = windowHeight;
       let currentSection = 0;
 
       if (scrollPosition < sectionHeight * 0.5) {
-        currentSection = 0;
+        currentSection = 0; // Home
       } else if (scrollPosition < sectionHeight * 1.5) {
-        currentSection = 1;
+        currentSection = 1; // Gym
       } else {
-        currentSection = 2;
+        currentSection = 2; // Beach
       }
 
       setActiveBackground(sections[currentSection].id);
     };
 
+    // Passive scroll listener (better performance)
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <div className={styles.container}>
-      {/* Background Layers */}
+      {/* Background Layers - Fade between them */}
       {sections.map((section) => (
         <motion.div
           key={section.id}
           className={styles.backgroundLayer}
           animate={{
             opacity: activeBackground === section.id ? 1 : 0,
-            scale: activeBackground === section.id ? 1 : 1.05
           }}
           transition={{
             duration: 0.8,
@@ -83,13 +80,12 @@ export default function ParallaxPerson() {
             backgroundImage: `url(${section.bgImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
           }}
           aria-hidden="true"
         />
       ))}
 
-      {/* Person Container (Fixed) */}
+      {/* Person Image - Fixed in Center (No Movement) */}
       <motion.div
         className={styles.personContainer}
         animate={{
@@ -107,12 +103,13 @@ export default function ParallaxPerson() {
       >
         <img
           src="/images/parallax/person-with-phone.svg"
-          alt="Person with mobile phone"
+          alt="Person holding mobile phone with fitness app"
           className={styles.personImage}
+          loading="lazy"
         />
       </motion.div>
 
-      {/* Scroll Sections (Triggers) */}
+      {/* Scroll Sections - Triggers for background changes */}
       {sections.map((section, index) => (
         <motion.section
           key={section.id}
@@ -133,10 +130,10 @@ export default function ParallaxPerson() {
               <h2 className={styles.title}>{section.title}</h2>
               <p className={styles.description}>{section.description}</p>
               
-              {/* Call-to-action button */}
+              {/* Call-to-Action Button */}
               <motion.button
                 className={styles.cta}
-                whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(6, 182, 212, 0.5)' }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 Learn More
@@ -146,11 +143,11 @@ export default function ParallaxPerson() {
         </motion.section>
       ))}
 
-      {/* Progress indicator */}
+      {/* Progress Indicator */}
       <motion.div
         className={styles.progressBar}
         style={{
-          width: `${scrollProgress * 100}%`
+          scaleX: scrollProgress,
         }}
       />
     </div>

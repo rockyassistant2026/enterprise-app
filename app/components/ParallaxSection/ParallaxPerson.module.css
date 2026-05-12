@@ -1,11 +1,11 @@
 .container {
   position: relative;
   width: 100%;
-  min-height: 300vh;
+  min-height: 300vh; /* 3 scroll sections × 100vh */
   background: #0a0e27;
 }
 
-/* Background Layers */
+/* ===== BACKGROUND LAYERS ===== */
 .backgroundLayer {
   position: fixed;
   top: 0;
@@ -13,12 +13,12 @@
   width: 100%;
   height: 100vh;
   z-index: 1;
-  will-change: opacity;
   background-size: cover;
   background-position: center;
+  will-change: opacity;
 }
 
-/* Person Container (Fixed in Center) */
+/* ===== PERSON CONTAINER (FIXED IN CENTER) ===== */
 .personContainer {
   position: fixed;
   top: 50%;
@@ -40,7 +40,7 @@
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
 }
 
-/* Scroll Section (Triggers) */
+/* ===== SCROLL SECTIONS (TRIGGERS) ===== */
 .scrollSection {
   position: relative;
   width: 100%;
@@ -49,7 +49,7 @@
   align-items: center;
   justify-content: center;
   z-index: 5;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.4); /* Overlay for readability */
 }
 
 .content {
@@ -74,14 +74,14 @@
   font-size: 2.5rem;
   font-weight: 700;
   color: white;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   line-height: 1.2;
 }
 
 .description {
   font-size: 1.125rem;
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 2rem;
+  margin: 1rem 0 2rem 0;
   line-height: 1.6;
 }
 
@@ -94,7 +94,7 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: box-shadow 0.3s ease;
   box-shadow: 0 10px 25px rgba(6, 182, 212, 0.2);
 }
 
@@ -102,11 +102,12 @@
   box-shadow: 0 15px 35px rgba(6, 182, 212, 0.4);
 }
 
-.cta:active {
-  transform: scale(0.95);
+.cta:focus {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
 }
 
-/* Progress Bar */
+/* ===== PROGRESS BAR ===== */
 .progressBar {
   position: fixed;
   top: 0;
@@ -114,13 +115,14 @@
   height: 4px;
   background: linear-gradient(90deg, #06b6d4 0%, #7c3aed 100%);
   z-index: 100;
-  will-change: width;
+  will-change: transform;
+  transform-origin: left;
 }
 
-/* Mobile Responsive */
+/* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
   .container {
-    min-height: 400vh;
+    min-height: 400vh; /* More scroll space on mobile */
   }
 
   .personContainer {
@@ -148,7 +150,7 @@
 
 @media (max-width: 480px) {
   .container {
-    min-height: 500vh;
+    min-height: 500vh; /* Even more scroll space on small phones */
   }
 
   .personContainer {
@@ -160,6 +162,10 @@
     font-size: 1.5rem;
   }
 
+  .subtitle {
+    font-size: 0.7rem;
+  }
+
   .content {
     padding: 1rem;
   }
@@ -169,13 +175,14 @@
   }
 }
 
-/* Accessibility: Respect prefers-reduced-motion */
+/* ===== ACCESSIBILITY: RESPECTS REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .personContainer,
   .backgroundLayer,
   .progressBar {
-    will-change: auto;
     animation: none !important;
+    transition: none !important;
+    will-change: auto;
   }
 
   .cta {
