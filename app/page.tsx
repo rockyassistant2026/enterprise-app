@@ -1,65 +1,109 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
 
 export default function Home() {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage(`Thank you! We'll contact you at ${email}`);
+    setEmail('');
+    setTimeout(() => setMessage(''), 3000);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Header */}
+      <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-white">Enterprise App</h1>
+            <nav className="hidden md:flex gap-8">
+              <a href="#features" className="text-slate-300 hover:text-white transition">Features</a>
+              <a href="#about" className="text-slate-300 hover:text-white transition">About</a>
+              <a href="#contact" className="text-slate-300 hover:text-white transition">Contact</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center">
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Welcome to Enterprise App
+          </h2>
+          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+            A modern, scalable enterprise application built with Next.js and deployed on Vercel.
           </p>
+          <div className="flex gap-4 justify-center">
+            <button className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition">
+              Get Started
+            </button>
+            <button className="px-8 py-3 border border-slate-400 hover:border-white text-white rounded-lg font-semibold transition">
+              Learn More
+            </button>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-700">
+        <h3 className="text-3xl font-bold text-white mb-12 text-center">Features</h3>
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 hover:border-blue-500 transition">
+            <div className="text-4xl mb-4">⚡</div>
+            <h4 className="text-xl font-bold text-white mb-2">Fast</h4>
+            <p className="text-slate-300">Built with Next.js for optimal performance</p>
+          </div>
+          <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 hover:border-blue-500 transition">
+            <div className="text-4xl mb-4">🔒</div>
+            <h4 className="text-xl font-bold text-white mb-2">Secure</h4>
+            <p className="text-slate-300">Enterprise-grade security and authentication</p>
+          </div>
+          <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 hover:border-blue-500 transition">
+            <div className="text-4xl mb-4">📈</div>
+            <h4 className="text-xl font-bold text-white mb-2">Scalable</h4>
+            <p className="text-slate-300">Designed to grow with your business</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-700">
+        <div className="max-w-md mx-auto">
+          <h3 className="text-3xl font-bold text-white mb-8 text-center">Get in Touch</h3>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <button
+              type="submit"
+              className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition"
+            >
+              Send Message
+            </button>
+            {message && (
+              <p className="text-green-400 text-center">{message}</p>
+            )}
+          </form>
         </div>
-      </main>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-700 bg-slate-900/50 backdrop-blur mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-slate-400">
+          <p>© 2026 Enterprise App. All rights reserved.</p>
+          <p className="text-sm mt-2">Deployed on Vercel • Built with Next.js</p>
+        </div>
+      </footer>
     </div>
   );
 }
